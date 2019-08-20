@@ -3,3 +3,13 @@
 <input type="text" id="inputTask" placeholder="New Task">
 <button {{action "addNewTask"}}>Add Task</button>
 
+<ul>
+    <p>Tasks</p>
+    {{#each myTasks as |task|}}
+        <li>
+            {{task.content}}
+        </li>
+    {{/each}}
+
+</ul>
+
