@@ -51,17 +51,17 @@ export default Controller.extend({
             }
 
             var loginRequest = new XMLHttpRequest();
-            loginRequest.onreadystatechange = () => { 
+            loginRequest.onreadystatechange = () => {
                 if (loginRequest.readyState == 4 && loginRequest.status == 200){
-
                     if(!(loginRequest.response)) {
-                        alert("Username and Password do not Match!");
+                        alert("Check Username or Password Again!");
                         return;
                     }
 
                     let user = {
                         "name":username,
-                        "password":password
+                        "password":password,
+                        "completedTasks":0
                     }
 
                     sessionStorage.setItem("user",JSON.stringify(user));

@@ -15,7 +15,22 @@ function checkIfLoggedId() {
 
 }
 
-getMyTasks();
+//getMyTasks();
+
+function getCompletedTaskCount() {
+    let username = user.name;
+    var getCompletedTaskCountRequest = new XMLHttpRequest();
+    getCompletedTaskCountRequest.onreadystatechange = () => { 
+        if (getCompletedTaskCountRequest.readyState == 4 && getCompletedTaskCountRequest.status == 200){
+            let completedTaskCount = [];
+            completedTaskCount.push(getCompletedTaskCountRequest.response);
+            self.set("completedTaskCount",completedTaskCount);
+        }
+    }
+    getCompletedTaskCountRequest.open("GET","http://localhost:4040/users/completedTaskCount?username="+username, true);
+    getCompletedTaskCountRequest.setRequestHeader("Content-Type", "application/json");
+    getCompletedTaskCountRequest.send();
+}
 
 function getMyTasks() {
     let username = user.name;
@@ -24,6 +39,7 @@ function getMyTasks() {
         if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
             let myTasks = getTasksRequest.response;
             self.set("myTasks",JSON.parse(myTasks));
+            getCompletedTaskCount();
         }
     }
     getTasksRequest.open("GET","http://localhost:4040/tasks?name="+username, true);
@@ -36,6 +52,10 @@ function getMyTasks() {
 export default Controller.extend({
 
     actions: {
+        listAllTasks: function(){
+            self = this;
+            getMyTasks();
+        },
         addNewTask: function() {
 
             let taskContent = document.getElementById("inputTask").value;
@@ -76,6 +96,19 @@ export default Controller.extend({
                 }
             }
             getTasksRequest.open("DELETE","http://localhost:4040/tasks?id="+taskID, true);
+            getTasksRequest.setRequestHeader("Content-Type", "application/json");
+            getTasksRequest.send();
+        },
+        completeTask: function(task) {
+            let taskID = task.id;
+            var getTasksRequest = new XMLHttpRequest();
+            getTasksRequest.onreadystatechange = () => { 
+                if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
+                    self = this;
+                    getMyTasks();
+                }
+            }
+            getTasksRequest.open("DELETE","http://localhost:4040/tasks/completed?id="+taskID, true);
             getTasksRequest.setRequestHeader("Content-Type", "application/json");
             getTasksRequest.send();
         }

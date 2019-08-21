@@ -4,14 +4,21 @@
 <div class="wrapper">
     <input type="text" id="inputTask" placeholder="New Task">
     <button {{action "addNewTask"}} id="addTaskButton">Add Task</button>
+    <button {{action "listAllTasks"}} id="listTasksButton">List Tasks</button>
 
         {{currentUser.username}}
-
+        <span id="completedTaskCountSpan">
+            Completed Task Count :
+            {{#each completedTaskCount as |number|}}
+            {{number}} 
+            {{/each}}
+            </span>
         <span id="tasksSpan">Tasks</span>
     <ul id="taskList">
         {{#each myTasks as |task|}}
             <li class="taskListItem">{{task.content}}
-                <button class="deleteTaskButton" {{action "deleteTask" task}}>X</button>
+                <button class="completeTaskButton" {{action "completeTask" task}}>✓</button>
+                <button class="deleteTaskButton" {{action "deleteTask" task}}>x</button>
             </li> 
         {{/each}}
 
