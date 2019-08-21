@@ -7,16 +7,19 @@ export default Controller.extend({
     actions: {
         signin: function() {
             let username;
+            let password;
             username = document.getElementById("username").value;
+            password = document.getElementById("password").value;
             username = username.trim();
-
-            if(!username) {
-                alert("Username cannot be empty");
+            password = password.trim();
+            if(!(username && password)) {
+                alert("Username or Password cannot be empty");
                 return;
             }
 
             let user = {
-                "name":username
+                "name":username,
+                "password":password
             }
 
             var postUserRequest = new XMLHttpRequest();
@@ -38,10 +41,12 @@ export default Controller.extend({
         },
         login: function() {
             let username;
+            let password;
             username = document.getElementById("username").value;
+            password = document.getElementById("password").value;
 
-            if(!username) {
-                alert("Username cannot be empty");
+            if(!(username && password)) {
+                alert("Username or Password cannot be empty");
                 return;
             }
 
@@ -50,19 +55,20 @@ export default Controller.extend({
                 if (loginRequest.readyState == 4 && loginRequest.status == 200){
 
                     if(!(loginRequest.response)) {
-                        alert("This username is not sign in yet. Please Sign in First");
+                        alert("Username and Password do not Match!");
                         return;
                     }
 
                     let user = {
-                        "name":username
+                        "name":username,
+                        "password":password
                     }
 
                     sessionStorage.setItem("user",JSON.stringify(user));
                     window.location.href = "/tasks"
                 }
             }
-            loginRequest.open("GET","http://localhost:4040/users?username="+username, true);
+            loginRequest.open("GET","http://localhost:4040/users?username="+username+"&password="+password, true);
             loginRequest.setRequestHeader("Content-Type", "application/json");
             loginRequest.send();
         }

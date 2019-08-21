@@ -10,7 +10,9 @@
         <span id="tasksSpan">Tasks</span>
     <ul id="taskList">
         {{#each myTasks as |task|}}
-            <li class="taskListItem">{{task.content}}</li>
+            <li class="taskListItem">{{task.content}}
+                <button class="deleteTaskButton" {{action "deleteTask" task}}>X</button>
+            </li> 
         {{/each}}
 
     </ul>

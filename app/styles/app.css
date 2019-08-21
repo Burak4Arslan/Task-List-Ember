@@ -11,6 +11,10 @@
     border-radius: 7px;
 }
 
+#password {
+    border-radius: 7px;
+}
+
 
 #signbutton {
     background-color: #7AF;
@@ -25,6 +29,13 @@
     padding: 5px;
     color: white;
 }
+
+.loginLabels {
+    text-align: initial;
+    font-size: 14px;
+    opacity: 0.5;
+}
+
 /* LOGIN PAGE END */
 
 /* TASKS PAGE START */
@@ -63,6 +74,14 @@
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.deleteTaskButton {
+    color: red;
+    background-color: white;
+    border-color: white;
+    border: 0px;
+    float: right;
 }
 
 /* TASKS PAGE END */

@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 
 let user;
+let self;
 
 checkIfLoggedId();
 
@@ -22,7 +23,7 @@ function getMyTasks() {
     getTasksRequest.onreadystatechange = () => { 
         if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
             let myTasks = getTasksRequest.response;
-            this.set("myTasks",JSON.parse(myTasks));
+            self.set("myTasks",JSON.parse(myTasks));
         }
     }
     getTasksRequest.open("GET","http://localhost:4040/tasks?name="+username, true);
@@ -52,20 +53,9 @@ export default Controller.extend({
             var addTaskRequest = new XMLHttpRequest();
             addTaskRequest.onreadystatechange = () => { 
                 if (addTaskRequest.readyState == 4 && addTaskRequest.status == 200){
-                    
-                    var getTasksRequest = new XMLHttpRequest();
-                    getTasksRequest.onreadystatechange = () => { 
-                        if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
-
-                            let myTasks = getTasksRequest.response;
-                            this.set("myTasks",JSON.parse(myTasks));
-                            
-                        }
-                    }
-                    getTasksRequest.open("GET","http://localhost:4040/tasks?name="+username, true);
-                    getTasksRequest.setRequestHeader("Content-Type", "application/json");
-                    getTasksRequest.send();
-
+                    document.getElementById("inputTask").value = "";
+                    self = this;
+                    getMyTasks();
                 }
             }
             addTaskRequest.open("POST","http://localhost:4040/tasks?name="+username, true);
@@ -75,6 +65,19 @@ export default Controller.extend({
         logout: function() {
             sessionStorage.removeItem("user");
             window.location.href = "/login";
+        },
+        deleteTask: function(task) {
+            let taskID = task.id;
+            var getTasksRequest = new XMLHttpRequest();
+            getTasksRequest.onreadystatechange = () => { 
+                if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
+                    self = this;
+                    getMyTasks();
+                }
+            }
+            getTasksRequest.open("DELETE","http://localhost:4040/tasks?id="+taskID, true);
+            getTasksRequest.setRequestHeader("Content-Type", "application/json");
+            getTasksRequest.send();
         }
     }
 
