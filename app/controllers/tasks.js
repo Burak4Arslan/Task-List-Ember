@@ -15,7 +15,7 @@ function checkIfLoggedId() {
 
 }
 
-//getMyTasks();
+
 
 function getCompletedTaskCount() {
     let username = user.name;
@@ -50,6 +50,11 @@ function getMyTasks() {
 
 
 export default Controller.extend({
+    init: function () {
+        this._super(... arguments);
+        self = this;
+        getMyTasks();
+    },
 
     actions: {
         listAllTasks: function(){
