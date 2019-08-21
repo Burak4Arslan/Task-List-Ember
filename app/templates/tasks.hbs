@@ -1,15 +1,17 @@
 
+<button id="logOutButton" {{action "logout"}}>Log Out</button>
 
-<input type="text" id="inputTask" placeholder="New Task">
-<button {{action "addNewTask"}}>Add Task</button>
+<div class="wrapper">
+    <input type="text" id="inputTask" placeholder="New Task">
+    <button {{action "addNewTask"}} id="addTaskButton">Add Task</button>
 
-<ul>
-    <p>Tasks</p>
-    {{#each myTasks as |task|}}
-        <li>
-            {{task.content}}
-        </li>
-    {{/each}}
+        {{currentUser.username}}
 
-</ul>
+        <span id="tasksSpan">Tasks</span>
+    <ul id="taskList">
+        {{#each myTasks as |task|}}
+            <li class="taskListItem">{{task.content}}</li>
+        {{/each}}
 
+    </ul>
+</div>

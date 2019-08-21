@@ -10,7 +10,24 @@ function checkIfLoggedId() {
 
     if(!user) {
         window.location.href = "/login";
-    } 
+    }
+
+}
+
+getMyTasks();
+
+function getMyTasks() {
+    let username = user.name;
+    var getTasksRequest = new XMLHttpRequest();
+    getTasksRequest.onreadystatechange = () => { 
+        if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
+            let myTasks = getTasksRequest.response;
+            this.set("myTasks",JSON.parse(myTasks));
+        }
+    }
+    getTasksRequest.open("GET","http://localhost:4040/tasks?name="+username, true);
+    getTasksRequest.setRequestHeader("Content-Type", "application/json");
+    getTasksRequest.send();
 
 }
 
@@ -21,6 +38,12 @@ export default Controller.extend({
         addNewTask: function() {
 
             let taskContent = document.getElementById("inputTask").value;
+            taskContent = taskContent.trim();
+
+            if(!taskContent) {
+                alert("Please Write A Task!");
+                return;
+            }
 
             let task = {
                 "content": taskContent
@@ -33,10 +56,10 @@ export default Controller.extend({
                     var getTasksRequest = new XMLHttpRequest();
                     getTasksRequest.onreadystatechange = () => { 
                         if (getTasksRequest.readyState == 4 && getTasksRequest.status == 200){
-                            
+
                             let myTasks = getTasksRequest.response;
-                            console.log(myTasks);
-                            this.set("myTasks",myTasks);
+                            this.set("myTasks",JSON.parse(myTasks));
+                            
                         }
                     }
                     getTasksRequest.open("GET","http://localhost:4040/tasks?name="+username, true);
@@ -48,6 +71,10 @@ export default Controller.extend({
             addTaskRequest.open("POST","http://localhost:4040/tasks?name="+username, true);
             addTaskRequest.setRequestHeader("Content-Type", "application/json");
             addTaskRequest.send(JSON.stringify(task));
+        },
+        logout: function() {
+            sessionStorage.removeItem("user");
+            window.location.href = "/login";
         }
     }
 

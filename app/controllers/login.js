@@ -1,11 +1,19 @@
 import Controller from '@ember/controller';
 
+sessionStorage.removeItem("user");
+
 export default Controller.extend({
 
     actions: {
         signin: function() {
             let username;
             username = document.getElementById("username").value;
+            username = username.trim();
+
+            if(!username) {
+                alert("Username cannot be empty");
+                return;
+            }
 
             let user = {
                 "name":username
@@ -32,9 +40,19 @@ export default Controller.extend({
             let username;
             username = document.getElementById("username").value;
 
+            if(!username) {
+                alert("Username cannot be empty");
+                return;
+            }
+
             var loginRequest = new XMLHttpRequest();
             loginRequest.onreadystatechange = () => { 
                 if (loginRequest.readyState == 4 && loginRequest.status == 200){
+
+                    if(!(loginRequest.response)) {
+                        alert("This username is not sign in yet. Please Sign in First");
+                        return;
+                    }
 
                     let user = {
                         "name":username
