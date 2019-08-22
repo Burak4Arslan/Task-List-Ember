@@ -5,7 +5,7 @@ body {
 
 /* LOGIN PAGE START */
 .wrapper {
-    width: 200px;
+    width: 300px;
     height: 100px;
     margin: 200px auto;
     display: grid;
@@ -17,6 +17,16 @@ body {
     font-size: 30px;
     color: mediumslateblue;
 
+}
+
+#taskListIcon {
+    font-size: 80px;
+    color: purple;
+}
+
+#userSignSpan {
+    font-size: 30px;
+    color: black;
 }
 
 #username {

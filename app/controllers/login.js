@@ -1,9 +1,8 @@
 import Controller from '@ember/controller';
 
 sessionStorage.removeItem("user");
-
+let userSign;
 export default Controller.extend({
-
     actions: {
         signin: function() {
             let username;
@@ -14,6 +13,7 @@ export default Controller.extend({
             password = password.trim();
             if(!(username && password)) {
                 alert("Username or Password cannot be empty");
+                userSign.style.color = "red";
                 return;
             }
 
@@ -28,7 +28,11 @@ export default Controller.extend({
 
                     if(!(postUserRequest.response)) {
                         alert("Username is already Taken");
+                        userSign = document.getElementById("userSignSpan");
+                        userSign.style.color = "red";
                     } else {
+                        userSign = document.getElementById("userSignSpan");
+                        userSign.style.color = "green";
                         alert("Signing in Successful")
                     }
 
@@ -47,6 +51,8 @@ export default Controller.extend({
 
             if(!(username && password)) {
                 alert("Username or Password cannot be empty");
+                userSign = document.getElementById("userSignSpan");
+                userSign.style.color = "red";
                 return;
             }
 
@@ -55,8 +61,12 @@ export default Controller.extend({
                 if (loginRequest.readyState == 4 && loginRequest.status == 200){
                     if(!(loginRequest.response)) {
                         alert("Check Username or Password Again!");
+                        userSign = document.getElementById("userSignSpan");
+                        userSign.style.color = "red";
                         return;
                     }
+                    userSign = document.getElementById("userSignSpan");
+                    userSign.style.color = "green";
 
                     let user = {
                         "name":username,

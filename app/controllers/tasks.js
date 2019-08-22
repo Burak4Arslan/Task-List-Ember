@@ -15,15 +15,12 @@ function checkIfLoggedId() {
 
 }
 
-
-
 function getCompletedTaskCount() {
     let username = user.name;
     var getCompletedTaskCountRequest = new XMLHttpRequest();
     getCompletedTaskCountRequest.onreadystatechange = () => { 
         if (getCompletedTaskCountRequest.readyState == 4 && getCompletedTaskCountRequest.status == 200){
-            let completedTaskCount = [];
-            completedTaskCount.push(getCompletedTaskCountRequest.response);
+            let completedTaskCount = getCompletedTaskCountRequest.response;
             self.set("completedTaskCount",completedTaskCount);
         }
     }
@@ -55,12 +52,11 @@ export default Controller.extend({
         self = this;
         getMyTasks();
     },
-
     actions: {
-        listAllTasks: function(){
-            self = this;
-            getMyTasks();
-        },
+        // listAllTasks: function(){
+        //     self = this;
+        //     getMyTasks();
+        // },
         addNewTask: function() {
 
             let taskContent = document.getElementById("inputTask").value;
@@ -118,5 +114,4 @@ export default Controller.extend({
             getTasksRequest.send();
         }
     }
-
 });
