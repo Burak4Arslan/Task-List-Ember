@@ -8,10 +8,41 @@ checkIfLoggedId();
 function checkIfLoggedId() {
 
     user = JSON.parse(sessionStorage.getItem("user"));
-    console.log(user);
     if(!user) {
         window.location.href = "/login";
     }
+
+}
+
+function organizeChart() {
+    self.set("myCompletedTaskData",{
+        labels: ["2019"],
+        datasets: [
+            {
+                label: "Completed Tasks",
+                backgroundColor: "rgba(65,105,225,0.5)",
+                borderColor: "rgba(65,105,225,1)",
+                // fillColor: "#AFF",
+                // strokeColor: "#AFF",
+                // highlightFill: "#AFF",
+                // highlightStroke: "#AFF",
+                data: [user.completedTasks]
+            }
+            ]
+        }
+    );
+
+    self.set("myOptions", {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    responsive: true
+                }
+            }]
+        }
+    });
+
 
 }
 
@@ -25,6 +56,8 @@ function getCompletedTaskCount() {
             user.completedTasks = completedTaskCount;
             // console.log(user);
             sessionStorage.setItem("user",JSON.stringify(user));
+
+            organizeChart();
         }
     }
     getCompletedTaskCountRequest.open("GET","http://localhost:4040/users/completedTaskCount?username="+username, true);
@@ -118,16 +151,16 @@ export default Controller.extend({
             getTasksRequest.send();
         }
     },
-    numberData: Ember.computed('model', function() {
+    numberData: Ember.computed(function() {
         return {
             labels: ["2018","2019"],
             datasets: [
                 {
                     label: "Completed Tasks",
-                    // fillColor: "rgba(255,255,255,1)",
-                    // strokeColor: "rgba(255,255,255,1)",
-                    // highlightFill: "rgba(255,255,255,1)",
-                    // highlightStroke: "rgba(255,255,255,1)",
+                    fillColor: "#AFF",
+                    strokeColor: "#AFF",
+                    highlightFill: "#AFF",
+                    highlightStroke: "#AFF",
                     data: [0,user.completedTasks]
                 }
             ]
