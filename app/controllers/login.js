@@ -67,11 +67,10 @@ export default Controller.extend({
                     }
                     userSign = document.getElementById("userSignSpan");
                     userSign.style.color = "green";
-
                     let user = {
                         "name":username,
                         "password":password,
-                        "completedTasks":0
+                        "completedTasks":JSON.parse(loginRequest.response).completedTasks
                     }
 
                     sessionStorage.setItem("user",JSON.stringify(user));

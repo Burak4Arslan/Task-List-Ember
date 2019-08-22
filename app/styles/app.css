@@ -62,6 +62,11 @@ body {
 
 /* TASKS PAGE START */
 
+#welcomeUserSpan {
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
 #inputTask {
     border-radius: 7px;
     margin-bottom: 10px;
@@ -87,8 +92,13 @@ body {
 }
 
 #tasksSpan {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 30px;
+}
+
+#taskIconSpan {
+    color: royalblue;
+    font-size: 40px;
 }
 
 #taskList {

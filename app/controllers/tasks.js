@@ -8,7 +8,7 @@ checkIfLoggedId();
 function checkIfLoggedId() {
 
     user = JSON.parse(sessionStorage.getItem("user"));
-
+    console.log(user);
     if(!user) {
         window.location.href = "/login";
     }
@@ -22,6 +22,9 @@ function getCompletedTaskCount() {
         if (getCompletedTaskCountRequest.readyState == 4 && getCompletedTaskCountRequest.status == 200){
             let completedTaskCount = getCompletedTaskCountRequest.response;
             self.set("completedTaskCount",completedTaskCount);
+            user.completedTasks = completedTaskCount;
+            // console.log(user);
+            sessionStorage.setItem("user",JSON.stringify(user));
         }
     }
     getCompletedTaskCountRequest.open("GET","http://localhost:4040/users/completedTaskCount?username="+username, true);
@@ -50,6 +53,7 @@ export default Controller.extend({
     init: function () {
         this._super(... arguments);
         self = this;
+        self.set("username",user.name);
         getMyTasks();
     },
     actions: {
@@ -113,5 +117,20 @@ export default Controller.extend({
             getTasksRequest.setRequestHeader("Content-Type", "application/json");
             getTasksRequest.send();
         }
-    }
+    },
+    numberData: Ember.computed('model', function() {
+        return {
+            labels: ["2018","2019"],
+            datasets: [
+                {
+                    label: "Completed Tasks",
+                    // fillColor: "rgba(255,255,255,1)",
+                    // strokeColor: "rgba(255,255,255,1)",
+                    // highlightFill: "rgba(255,255,255,1)",
+                    // highlightStroke: "rgba(255,255,255,1)",
+                    data: [0,user.completedTasks]
+                }
+            ]
+        }
+    })
 });

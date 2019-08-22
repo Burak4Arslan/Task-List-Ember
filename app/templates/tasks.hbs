@@ -1,15 +1,15 @@
 <button id="logOutButton" {{action "logout"}}>Log Out</button>
 <div class="wrapper">
+    <span id="welcomeUserSpan">Welcome, {{username}}</span>
     <input type="text" id="inputTask" placeholder="New Task">
     <button {{action "addNewTask"}} id="addTaskButton">Add Task</button>
     {{!-- <button {{action "listAllTasks"}} id="listTasksButton">List Tasks</button> --}}
-
-        {{currentUser.username}}
+        {{ember-chart type="line" data=numberData}}
         <span id="completedTaskCountSpan">
             Completed Task Count :
             {{completedTaskCount}}
         </span>
-        <span id="tasksSpan">Tasks</span>
+        <span id="tasksSpan">Task List</span><span id="taskIconSpan">{{fa-icon "running"}}</span> 
     <ul id="taskList">
         {{#each myTasks as |task|}}
             <li class="taskListItem">{{task.content}}
