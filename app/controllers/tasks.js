@@ -2,8 +2,6 @@ import Controller from '@ember/controller';
 
 let user;
 let self;
-let usernameAndCompletedTaskCountArray = [];
-let myChartData = new Array();
 
 checkIfLoggedId();
 
@@ -16,71 +14,6 @@ function checkIfLoggedId() {
 
 }
 
-function makeNewColor() {
-    let red = Math.floor(Math.random()*255);
-    let green = Math.floor(Math.random()*255);
-    let blue = Math.floor(Math.random()*255);
-    let newColor = "rgb("+red+","+green+","+blue+",1)";
-    return newColor;
-}
-
-function getEveryonesCompletedTasks() {
-
-    let getAllUsersCompletedTaskCountRequest = new XMLHttpRequest();
-    getAllUsersCompletedTaskCountRequest.onreadystatechange = () => { 
-        if (getAllUsersCompletedTaskCountRequest.readyState == 4 && getAllUsersCompletedTaskCountRequest.status == 200){
-            let allCompletedTaskCount = JSON.parse(getAllUsersCompletedTaskCountRequest.response);
-            for(let i=0;i<allCompletedTaskCount.length;i++) {
-                usernameAndCompletedTaskCountArray[i] = []
-                usernameAndCompletedTaskCountArray[i][0] = allCompletedTaskCount[i].name;
-                usernameAndCompletedTaskCountArray[i][1] = allCompletedTaskCount[i].completedTasks;
-            }
-            organizeChart();
-        }
-    }
-    getAllUsersCompletedTaskCountRequest.open("GET","http://localhost:4040/users/allCompletedTaskCount", true);
-    getAllUsersCompletedTaskCountRequest.setRequestHeader("Content-Type", "application/json");
-    getAllUsersCompletedTaskCountRequest.send();
-
-
-}
-
-function makeChartData() {
-    myChartData = [];
-    for(let i=0;i<usernameAndCompletedTaskCountArray.length;i++) {
-        let newData = {
-            label : usernameAndCompletedTaskCountArray[i][0],
-            backgroundColor: makeNewColor(),
-            data : [usernameAndCompletedTaskCountArray[i][1]]
-        }
-        myChartData.push(newData);
-    }
-    // console.log(myChartData);
-}
-
-function organizeChart() {
-
-    makeChartData();
-
-    self.set("myCompletedTaskData",{
-        labels: ["2019"],
-        datasets: myChartData
-        }
-    );
-
-    self.set("myOptions", {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true,
-                    responsive: true
-                }
-            }]
-        }
-    });
-
-
-}
 
 function getCompletedTaskCount() {
     let username = user.name;
@@ -92,7 +25,6 @@ function getCompletedTaskCount() {
             user.completedTasks = completedTaskCount;
             // console.log(user);
             sessionStorage.setItem("user",JSON.stringify(user));
-            getEveryonesCompletedTasks();
         }
     }
     getCompletedTaskCountRequest.open("GET","http://localhost:4040/users/completedTaskCount?username="+username, true);

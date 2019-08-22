@@ -135,3 +135,21 @@ body {
 }
 
 /* TASKS PAGE END */
+
+/*ADMIN PAGE START*/
+
+#usersSpan {
+    font-size: 50px;
+    color: royalblue;
+}
+
+#usersList {
+    list-style-type: decimal;
+    text-align: initial;
+}
+
+.usersListItem{
+    padding: 10px;
+}
+
+/*ADMIN PAGE END*/

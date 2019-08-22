@@ -4,7 +4,6 @@
     <input type="text" id="inputTask" placeholder="New Task">
     <button {{action "addNewTask"}} id="addTaskButton">Add Task</button>
     {{!-- <button {{action "listAllTasks"}} id="listTasksButton">List Tasks</button> --}}
-        {{ember-chart type="bar" data=myCompletedTaskData options=myOptions id="mychart"}}
         <span id="completedTaskCountSpan">
             Completed Task Count :
             {{completedTaskCount}}
